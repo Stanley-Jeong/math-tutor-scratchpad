@@ -18,8 +18,10 @@ export class AppComponent {
   openInNewWindow() {
     const defaultSize = 'height=900, width=1200';
     const iPadMini = 'height=768, width=1024';
+    const testSize = 'height=700, width=1000';
     // const newWindow = window.open('', '', defaultSize);
-    const newWindow = window.open('', '', iPadMini);
+    // const newWindow = window.open('', '', iPadMini);
+    const newWindow = window.open('', '', testSize);
 
     /* Open in new window */
     if (newWindow) {

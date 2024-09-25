@@ -91,7 +91,7 @@ export class DrawingPadContainer extends HTMLElement {
     const canvas = document.createElement('canvas');
     
     canvas.width = window.innerWidth * 0.49;
-    canvas.height = window.innerHeight * 0.85;
+    canvas.height = window.innerHeight * 0.84;
     
     // https://stackoverflow.com/questions/5517783/preventing-canvas-clear-when-resizing-window
     let W = canvas.width, H = canvas.height
@@ -103,7 +103,7 @@ export class DrawingPadContainer extends HTMLElement {
     window.onresize = function() {
       let temp = ctx.getImageData(0,0,W,H)
       canvas.width = window.innerWidth * 0.49;
-      canvas.height = window.innerHeight * 0.85;
+      canvas.height = window.innerHeight * 0.84;
 
       // canvas.width = window.innerWidth / 2 ;
       // canvas.height = window.innerHeight * 0.85;
@@ -135,6 +135,7 @@ export class DrawingPadContainer extends HTMLElement {
     }
 
     this.toolButton.onclick = toggleTool;
+    this.toolButton.ontouchstart = toggleTool;
     
 
     let currentStrokes = [];  // Store points for the current stroke
@@ -261,17 +262,23 @@ export class DrawingPadContainer extends HTMLElement {
 
     this.undoButton.onclick = undo;
     this.redoButton.onclick = redo;
+    this.undoButton.ontouchstart = undo;
+    this.redoButton.ontouchstart = redo;
 
 
-    // clear canvas button function
-    this.clearButton.onclick = () => {
+
+    const clearCanvas = () => {
       // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clearRect 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       this.strokes = [];
       this.redoStack = [];
     }
+    // clear canvas button function
+    this.clearButton.onclick = clearCanvas;
+    this.clearButton.ontouchstart = clearCanvas;
 
-    this.solveButton.onclick = () => {
+    // SOLVE FUNCTION
+    const solve = () => {
       const endPoint = 'SOME_URL_TO_PYTHON_API'
       // get the drawing ctx of the canvas, pass that into the fetch request
       const imageSnapshot = ctx.getImageData(0,0,canvas.width, canvas.height)
@@ -290,6 +297,9 @@ export class DrawingPadContainer extends HTMLElement {
         drawArea.appendChild(tempImg)
       })
     }
+
+    this.solveButton.onclick = solve;
+    this.solveButton.ontouchstart = solve;
 
     this.uploadInput.onchange = (e) => {
       const file = e.target.files[0];

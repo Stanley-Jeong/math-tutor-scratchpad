@@ -104,6 +104,7 @@ Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur
 
       const sendButton = new Button('Send');
       // sendButton.onclick, clear input and run function
+      // sendButton.ontouchstart
 
       chatInputContainer.append(chatInput, sendButton)
       infoArea.appendChild(chatInputContainer)

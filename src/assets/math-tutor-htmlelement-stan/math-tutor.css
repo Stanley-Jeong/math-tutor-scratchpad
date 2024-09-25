@@ -89,6 +89,7 @@ canvas {
   border: none;
   font-size: 16px;
   font-weight: 600;
+  user-select: none;
 }
 
 .blue-icon-square-button {
