@@ -1,0 +1,31 @@
+
+
+/* MODAL */
+
+.math-modal {
+  display: none;
+  position: fixed;
+
+  left: 5%;
+  top: 5%;
+  z-index: 1;
+  height: 700px;
+  width: 900px;
+  overflow: scroll;
+  border: solid 1px red;
+}
+
+.math-modal.show {
+  display: block;
+}
+
+.math-modal-header {
+  display: flex;
+  background-color: lightpink;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.math-modal-title {
+  text-align: center;
+}

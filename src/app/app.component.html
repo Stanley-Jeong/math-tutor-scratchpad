@@ -225,11 +225,42 @@
           <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
         </defs>
       </svg>
-      <h1>Hello, {{ title }}</h1>
-      <p>Congratulations! Your app is running. 🎉</p>
+      <h1>{{ title }}</h1>
+
+      <!-- put code here -->
+
+      <!-- <a
+        [title]="'details'"
+        [routerLink]="['/products', product id 12]">
+        product name here
+    
+      </a> -->
+      <br>
+
+      <button (click)="openInNewWindow()">Open in New Window</button>
+
+      <!-- Button to open the modal -->
+      <button class="btn btn-primary" (click)="openMathModal()">Open in Modal</button>
+
+      <!-- Modal -->
+      <div class="math-modal" [ngClass]="{'show d-block': showMathModal, 'fade': !showMathModal}">
+        <div class="math-modal-header">
+          <h5 class="math-modal-title">Math Tutor Scratchpad</h5>
+          <button type="button" class="close" aria-label="Close" (click)="closeMathModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Custom Math Pad component -->
+        <math-tutor-scratch-pad></math-tutor-scratch-pad>
+      </div>
+
+
+
     </div>
+
     <div class="divider" role="separator" aria-label="Divider"></div>
-    <div class="right-side">
+    
+    <!-- <div class="right-side">
       <div class="pill-group">
         @for (item of [
           { title: 'Explore the Docs', link: 'https://angular.dev' },
@@ -320,7 +351,7 @@
           </svg>
         </a>
       </div>
-    </div>
+    </div> -->
   </div>
 </main>
 
