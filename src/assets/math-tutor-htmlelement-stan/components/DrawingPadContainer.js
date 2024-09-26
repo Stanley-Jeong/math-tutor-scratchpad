@@ -21,7 +21,7 @@ export class DrawingPadContainer extends HTMLElement {
     topLeftButtonsContainer.classList.add('d-flex-gap');
 
     const placeholder1 = document.createElement('span');
-    placeholder1.textContent = '.';
+    placeholder1.textContent = ' ';
 
     topLeftButtonsContainer.append(placeholder1);
 
@@ -98,7 +98,7 @@ export class DrawingPadContainer extends HTMLElement {
 
     if (window.innerHeight < 767) {
       // widthMult = 0.46;
-      heightMult = 0.72;
+      heightMult = 0.74;
     }
     
     canvas.width = window.innerWidth * widthMult;

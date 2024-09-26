@@ -43,6 +43,7 @@
   display: flex;
   font-family: 'DM Sans', Helvetica, serif;
   background-color: #DCDAD6;
+  touch-action: manipulation; /* Disable double tap to zoom, https://stackoverflow.com/questions/10614481/disable-double-tap-zoom-option-in-browser-on-touch-devices */
 }
 
 .left-container {
@@ -224,7 +225,7 @@ input[type="file"] {
   .blue-button {
     font-size: 0.8em;
     font-weight: 600;
-    height: 24px;
+    height: 26px;
     width: 46px;
   }
 
@@ -237,8 +238,8 @@ input[type="file"] {
   }
 
   .tab {
-    height: 20px;
-    width: 60px;
+    height: 26px;
+    width: 64px;
     font-size: 0.8em;
   }
 
@@ -255,7 +256,7 @@ input[type="file"] {
   }
 
   .buttons-row {
-    padding: 4px;
+    padding: 0px;
   }
 
   .chat-input-flexbox {
