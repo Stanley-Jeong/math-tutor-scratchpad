@@ -6,13 +6,20 @@
   display: none;
   position: fixed;
 
-  left: 5%;
-  top: 5%;
+  left: 2%;
+  top: 2%;
   z-index: 1;
-  height: 700px;
-  width: 900px;
+  /* height: 700px;
+  width: 900px; */
+  height: 96%;
+  width: 96%;
   overflow: scroll;
-  border: solid 1px red;
+  border: solid 1px #2A7CC7;
+  border-radius: 4px;
+}
+
+.math-modal-title {
+  color: white;
 }
 
 .math-modal.show {
@@ -21,9 +28,10 @@
 
 .math-modal-header {
   display: flex;
-  background-color: lightpink;
-  justify-content: space-around;
+  background-color: #2A7CC7;
+  justify-content: space-between;
   align-items: center;
+  /* padding: 0px 2px; */
 }
 
 .math-modal-title {

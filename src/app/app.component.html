@@ -245,10 +245,11 @@
       <!-- Modal -->
       <div class="math-modal" [ngClass]="{'show d-block': showMathModal, 'fade': !showMathModal}">
         <div class="math-modal-header">
-          <h5 class="math-modal-title">Math Tutor Scratchpad</h5>
           <button type="button" class="close" aria-label="Close" (click)="closeMathModal()">
             <span aria-hidden="true">&times;</span>
           </button>
+          <span class="math-modal-title"><strong>Math Tutor Scratchpad</strong></span>
+          <span class="math-modal-title">.</span>
         </div>
         <!-- Custom Math Pad component -->
         <math-tutor-scratch-pad></math-tutor-scratch-pad>
@@ -258,7 +259,7 @@
 
     </div>
 
-    <div class="divider" role="separator" aria-label="Divider"></div>
+    <!-- <div class="divider" role="separator" aria-label="Divider"></div> -->
     
     <!-- <div class="right-side">
       <div class="pill-group">

@@ -1,5 +1,3 @@
-// import undoIcon from '../icons/undo-icon.png'
-
 export class Button extends HTMLElement {
   constructor(labelName) {
     super();
@@ -7,24 +5,17 @@ export class Button extends HTMLElement {
     const button = document.createElement('button');
     button.classList.add('blue-button', `${this.labelName?.toLowerCase()}-button`);
 
+    this.iconNames = ['Undo', 'Redo', 'Pen', 'Eraser'];
 
-    if (labelName === 'Undo') {
+    // icon image button
+    if (this.iconNames.includes(this.labelName)) {
       const icon = document.createElement('img');
-      icon.src = './assets/math-tutor-htmlelement-stan/icons/undo-icon.png';
-      icon.width = 32;
-      button.appendChild(icon);
-      button.classList.add('blue-icon-square-button');
-    } else if (labelName === 'Redo') {
-      const icon = document.createElement('img');
-      icon.src = './assets/math-tutor-htmlelement-stan/icons/redo-icon.png';
-      icon.width = 32;
+      icon.src = `./assets/math-tutor-htmlelement-stan/icons/${this.labelName}.png`;
       button.appendChild(icon);
       button.classList.add('blue-icon-square-button');
     } else {
       button.textContent = this.labelName;
     }
-
-
 
     // this means the class instance itself. RENDER the DOM node to the custom HTML element itself
     this.appendChild(button);
@@ -39,8 +30,18 @@ export class Button extends HTMLElement {
   // }
 
   set label(newLabel) {
-    this.labelName = newLabel;
-    this.button.textContent = this.labelName;
+    if (this.iconNames.includes(newLabel)) {
+      const icon = document.createElement('img');
+      icon.src = `./assets/math-tutor-htmlelement-stan/icons/${newLabel}.png`;
+      if (this.button.hasChildNodes()) {
+        this.button.removeChild(this.button.childNodes[0])
+      }
+      this.button.appendChild(icon);
+      this.button.classList.add('blue-icon-square-button');
+    } else {
+      this.labelName = newLabel;
+      this.button.textContent = this.labelName;
+    }
   }
 
 }

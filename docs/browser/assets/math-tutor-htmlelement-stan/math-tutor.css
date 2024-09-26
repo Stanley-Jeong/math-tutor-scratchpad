@@ -42,14 +42,16 @@
 .math-main-container {
   display: flex;
   font-family: 'DM Sans', Helvetica, serif;
+  background-color: #DCDAD6;
 }
 
 .left-container {
   background-color: #DCDAD6;
+  margin-right: 4px;
 }
 
 .draw-area {
-  background-color: teal;
+  background-color: #DCDAD6;
 }
 
 canvas {
@@ -61,7 +63,7 @@ canvas {
 
 .d-flex-gap {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
 }
 
@@ -92,6 +94,10 @@ canvas {
   user-select: none;
 }
 
+.blue-icon-square-button img {
+  width: 32px;
+}
+
 .blue-icon-square-button {
   width: 40px;
 }
@@ -118,7 +124,8 @@ input[type="file"] {
 .right-container {
   /* background-color: teal; */
   max-width: 49vw;
-  height: 90vh;
+  height: 84.5vh; /* NEED THIS FOR FIXED SCROLLING */
+  margin-left: 4px;
 }
 
 .tabs-container {
@@ -153,7 +160,7 @@ input[type="file"] {
   padding: 10px 60px;
   height: 100%;
   overflow-y: scroll;
-  /* background-color: lightblue; */
+  background-color: lightblue;
   background-color: #f6f6f6;
   position: relative;
 }
@@ -166,25 +173,101 @@ input[type="file"] {
   font-weight: 400;
 }
 
+.chatbox-offset-div {
+  height: 70px;
+}
+
 .chat-input-container {
-  display: flex; 
+  display: none;
+}
+
+.chat-input-container.active {
+  display: block;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+.chat-input-flexbox {
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
 
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  margin-right: 1.5%;
-  width: 46%;
-  height: 100px;
+  position: absolute;
+  bottom: 1.7vh;
+  /* bottom: 0; */
+  /* right: 0; */
+  margin-left: 5px;
+  width: 46.5%;
+  height: 80px;
   background-color: #f6f6f6;
-  padding: 14px 8px;
+  /* background-color: red; */
+  padding: 16px 8px;
+  border-radius: 4px;
 }
 
 .chat-input {
-  width: 100%;
-  padding: 16px;
+  width: 70%;
+  padding: 6px;
+}
+
+
+
+
+@media (max-width: 980px) {
+  * {
+    font-size: 1em;
+  }
+
+  .blue-button {
+    font-size: 0.8em;
+    font-weight: 600;
+    height: 24px;
+    width: 46px;
+  }
+
+  .blue-icon-square-button {
+    width: 30px;
+  }
+
+  .blue-icon-square-button img {
+    width: 16px;
+  }
+
+  .tab {
+    height: 20px;
+    width: 60px;
+    font-size: 0.8em;
+  }
+
+  .tab-content {
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-height: 450px) {
+  .right-container {
+    height: 78vh; /* NEED THIS FOR FIXED SCROLLING */
+  }
+
+  .buttons-row {
+    padding: 4px;
+  }
+
+  .chat-input-flexbox {
+    padding: 0px;
+    height: 70px;
+  }
+
+  .chat-input {
+    width: 70%;
+    padding: 2px;
+    font-size: 0.9em;
+  }
+  
 }
 

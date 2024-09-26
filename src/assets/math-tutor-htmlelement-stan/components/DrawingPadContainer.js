@@ -89,9 +89,20 @@ export class DrawingPadContainer extends HTMLElement {
     drawArea.classList.add('draw-area');
 
     const canvas = document.createElement('canvas');
+
+
+    let widthMult = 0.48;
+    let heightMult = 0.78;
+
+    console.log(window.innerHeight);
+
+    if (window.innerHeight < 767) {
+      // widthMult = 0.46;
+      heightMult = 0.72;
+    }
     
-    canvas.width = window.innerWidth * 0.49;
-    canvas.height = window.innerHeight * 0.84;
+    canvas.width = window.innerWidth * widthMult;
+    canvas.height = window.innerHeight * heightMult;
     
     // https://stackoverflow.com/questions/5517783/preventing-canvas-clear-when-resizing-window
     let W = canvas.width, H = canvas.height
@@ -102,8 +113,8 @@ export class DrawingPadContainer extends HTMLElement {
 
     window.onresize = function() {
       let temp = ctx.getImageData(0,0,W,H)
-      canvas.width = window.innerWidth * 0.49;
-      canvas.height = window.innerHeight * 0.84;
+      canvas.width = window.innerWidth * widthMult;
+      canvas.height = window.innerHeight * heightMult;
 
       // canvas.width = window.innerWidth / 2 ;
       // canvas.height = window.innerHeight * 0.85;
@@ -134,9 +145,9 @@ export class DrawingPadContainer extends HTMLElement {
       this.toolButton.label = this.isEraserActive ? 'Pen' : 'Eraser';
     }
 
-    this.toolButton.onclick = toggleTool;
-    this.toolButton.ontouchstart = toggleTool;
-    
+    // this.toolButton.onclick = toggleTool;
+    this.toolButton.onmouseup = toggleTool;
+  
 
     let currentStrokes = [];  // Store points for the current stroke
     this.strokes = [];        // Store all completed strokes

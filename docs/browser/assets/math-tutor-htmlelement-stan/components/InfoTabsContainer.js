@@ -92,12 +92,19 @@ Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur
 
     // Chat Window differentiators
     if (sectionName === 'Chat') {
-      const chatInputContainer = document.createElement('div');
-      chatInputContainer.classList.add('chat-input-container');
+      this.chatInputContainer = document.createElement('div');
+      this.chatInputContainer.classList.add('chat-input-container');
+      const chatInputFlexbox = document.createElement('div');
+      chatInputFlexbox.classList.add('chat-input-flexbox');
       
       const chatInput = document.createElement('input');
       chatInput.type = 'text';
-      chatInput.classList.add('chat-input')
+      chatInput.classList.add('chat-input');
+
+      // bottom spacer for chat box
+      const chatboxOffsetDiv = document.createElement('div');
+      chatboxOffsetDiv.classList.add('chatbox-offset-div');
+      infoArea.appendChild(chatboxOffsetDiv);
       
       // on enter key, clear input and run function
       
@@ -106,20 +113,21 @@ Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur
       // sendButton.onclick, clear input and run function
       // sendButton.ontouchstart
 
-      chatInputContainer.append(chatInput, sendButton)
-      infoArea.appendChild(chatInputContainer)
-      // this.appendChild(chatInputContainer)
+      chatInputFlexbox.append(chatInput, sendButton);
+      // infoArea.appendChild(this.chatInputContainer)
+      this.chatInputContainer.append(chatInputFlexbox)
+      this.appendChild(this.chatInputContainer);
     }
 
     return infoArea;
   }
 
   showTab(tab) {
+    this.chatInputContainer.classList.remove('active');
     this.querySelectorAll('.tab-content').forEach((content) => {
       content.classList.remove('active');
     });
     this.querySelectorAll('.tab').forEach((tabElement) => {
-      console.log(tab)
       if (tabElement.textContent === tab) {
         tabElement.classList.add('active')
       } else {
@@ -132,6 +140,7 @@ Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur
       this.analysisWindow.classList.add('active');
     } else if (tab === 'Chat') {
       this.chatWindow.classList.add('active');
+      this.chatInputContainer.classList.add('active');
     }
   }
 
