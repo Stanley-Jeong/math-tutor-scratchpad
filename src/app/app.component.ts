@@ -26,10 +26,16 @@ export class AppComponent {
     /* Open in new window */
     if (newWindow) {
       newWindow.document.write(`
-        <html>
-          <head><title>Math Tutor Scratchpad</title></head>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Math Tutor Scratchpad</title>
+          </head>
           <body>
             <math-tutor-scratch-pad></math-tutor-scratch-pad>
+
+            <script src="./assets/math-tutor-htmlelement-stan/components/math-tutor-scratch-pad.js" type="module"></script>
           </body>
         </html>
       `);
@@ -44,6 +50,8 @@ export class AppComponent {
       link.rel = 'stylesheet'
       link.href = './assets/math-tutor-htmlelement-stan/math-tutor.css'
       newWindow.document.head.appendChild(link);
+
+      newWindow.document.close();
     }
   } 
 
