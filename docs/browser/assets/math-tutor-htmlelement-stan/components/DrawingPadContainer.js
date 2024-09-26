@@ -313,21 +313,86 @@ export class DrawingPadContainer extends HTMLElement {
 
     this.solveButton.onmouseup = solve;
 
+
+    // // Downscaling img on canvas attempt. still bad quality
+    // function downscaleImage(image, scaleFactor) {
+    //   const tempCanvas = document.createElement('canvas');
+    //   const tempCtx = tempCanvas.getContext('2d');
+    
+    //   let width = image.width;
+    //   let height = image.height;
+    
+    //   // Set the initial canvas dimensions to the image's dimensions
+    //   tempCanvas.width = width;
+    //   tempCanvas.height = height;
+    //   tempCtx.drawImage(image, 0, 0, width, height);
+    
+
+    //   const ratioX = canvas.width / image.naturalWidth;
+    //   const ratioY = canvas.height / image.naturalHeight;
+    //   const ratio = Math.min(ratioX / ratioY) * 0.2;
+    //   const scaledWidth = image.naturalWidth * ratio;
+    //   const scaledHeight = image.naturalHeight * ratio;
+
+    //   console.log(scaledWidth, 'scaledWiftbh')
+    //   console.log(scaledHeight, 'scaledHeight')
+
+    //   // Perform stepwise downscaling to avoid quality loss
+    //   while (width * scaleFactor > scaledWidth && height * scaleFactor > scaledHeight) {
+    //     width = Math.floor(width * scaleFactor);
+    //     height = Math.floor(height * scaleFactor);
+    
+    //     // Resize canvas
+    //     tempCanvas.width = width;
+    //     tempCanvas.height = height;
+    //     console.log(width, 'width!')
+    
+    //     // Draw the image onto the canvas
+    //     tempCtx.drawImage(image, 0, 0, width, height);
+    //   }
+    
+    //   // Now that the image is downscaled, draw it to the main canvas
+    //   canvas.width = width;
+    //   canvas.height = height;
+    
+    //   // Set high-quality interpolation settings
+    //   ctx.imageSmoothingEnabled = true;
+    //   ctx.imageSmoothingQuality = 'high';
+    
+    //   // Draw the downscaled image
+    //   ctx.drawImage(tempCanvas, 0, 0, width, height);
+    // }
+
     this.uploadInput.onchange = (e) => {
       const file = e.target.files[0];
+      if (!file) return;
       const reader = new FileReader()
       reader.onload = (evt) => {
         const img = new Image();
         img.onload = () => {
-          const ratioX = canvas.width / img.naturalWidth;
-          const ratioY = canvas.height / img.naturalHeight;
-          const ratio = Math.min(ratioX / ratioY) * 0.5;
-          const scaledWidth = img.naturalWidth * ratio;
-          const scaledHeight = img.naturalHeight * ratio;
-          const offsetX = (canvas.width - scaledWidth) / 2;
-          const offsetY = (canvas.height - scaledHeight) / 2;
 
-          ctx.drawImage(img, offsetX, offsetY, scaledWidth, scaledHeight);
+          // const scaleFactor = 0.5;
+          // downscaleImage(img, scaleFactor);
+
+          // const ratioX = canvas.width / img.naturalWidth;
+          // const ratioY = canvas.height / img.naturalHeight;
+          // const ratio = Math.min(ratioX / ratioY) * 0.4;
+          // const scaledWidth = img.naturalWidth * ratio;
+          // const scaledHeight = img.naturalHeight * ratio;
+          // const offsetX = (canvas.width - scaledWidth) / 2;
+          // const offsetY = (canvas.height - scaledHeight) / 2;
+
+          // ctx.imageSmoothingEnabled = true;
+          // ctx.imageSmoothingQuality = 'high';
+
+          // ctx.drawImage(img, offsetX, offsetY, scaledWidth, scaledHeight);
+
+          
+
+          // img.style.width = '100%'
+          img.style.width = '49vw'
+          drawArea.appendChild(img);
+
         }
         img.src = evt.target.result;
       }
