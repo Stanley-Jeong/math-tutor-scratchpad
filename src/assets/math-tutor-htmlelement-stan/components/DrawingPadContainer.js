@@ -270,12 +270,10 @@ export class DrawingPadContainer extends HTMLElement {
         redrawCanvas();
       }
     };
-
-    this.undoButton.onclick = undo;
-    this.redoButton.onclick = redo;
-    this.undoButton.ontouchstart = undo;
-    this.redoButton.ontouchstart = redo;
-
+    
+    // better response
+    this.undoButton.onmouseup = undo;
+    this.redoButton.onmouseup = redo;
 
 
     const clearCanvas = () => {
@@ -285,12 +283,16 @@ export class DrawingPadContainer extends HTMLElement {
       this.redoStack = [];
     }
     // clear canvas button function
-    this.clearButton.onclick = clearCanvas;
-    this.clearButton.ontouchstart = clearCanvas;
+    // this.clearButton.onclick = clearCanvas;
+    // this.clearButton.ontouchstart = clearCanvas;
+    this.clearButton.onmouseup = clearCanvas;
 
     // SOLVE FUNCTION
     const solve = () => {
-      const endPoint = 'SOME_URL_TO_PYTHON_API'
+      const endPoint = 'SOME-URL-TO-PYTHON-API';
+
+      /* fetch.then or async await, try catch stuff here */
+
       // get the drawing ctx of the canvas, pass that into the fetch request
       const imageSnapshot = ctx.getImageData(0,0,canvas.width, canvas.height)
       console.log(imageSnapshot)
@@ -309,8 +311,7 @@ export class DrawingPadContainer extends HTMLElement {
       })
     }
 
-    this.solveButton.onclick = solve;
-    this.solveButton.ontouchstart = solve;
+    this.solveButton.onmouseup = solve;
 
     this.uploadInput.onchange = (e) => {
       const file = e.target.files[0];

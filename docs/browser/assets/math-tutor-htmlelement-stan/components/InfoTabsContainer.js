@@ -105,13 +105,28 @@ Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur
       const chatboxOffsetDiv = document.createElement('div');
       chatboxOffsetDiv.classList.add('chatbox-offset-div');
       infoArea.appendChild(chatboxOffsetDiv);
-      
-      // on enter key, clear input and run function
-      
+  
 
+      const sendMessage = () => {
+        chatInput.value = '';
+
+        // CHAT FUNCTIONALITY HERE
+        
+      }
+
+      // Clicking on the Send Button
       const sendButton = new Button('Send');
-      // sendButton.onclick, clear input and run function
-      // sendButton.ontouchstart
+      sendButton.onmouseup = sendMessage;
+      
+      // on Enter key, clear input and run function
+      chatInput.addEventListener('keyup', (evt) => {
+        if (evt.key === 'Enter') {
+          evt.preventDefault();
+          sendMessage();
+        }
+      })
+
+
 
       chatInputFlexbox.append(chatInput, sendButton);
       // infoArea.appendChild(this.chatInputContainer)
