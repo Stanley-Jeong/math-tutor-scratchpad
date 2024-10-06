@@ -1,8 +1,10 @@
 import { Button } from './Button.js'
 
 export class DrawingPadContainer extends HTMLElement {
-  constructor() {
+  constructor(solve) {
     super();
+
+    this.solve = solve;
     
     // Left-side Drawing Window
     const leftContainer = document.createElement('div');
@@ -94,7 +96,7 @@ export class DrawingPadContainer extends HTMLElement {
     let widthMult = 0.48;
     let heightMult = 0.78;
 
-    console.log(window.innerHeight);
+    // console.log(window.innerHeight);
 
     if (window.innerHeight < 767) {
       // widthMult = 0.46;
@@ -287,31 +289,11 @@ export class DrawingPadContainer extends HTMLElement {
     // this.clearButton.ontouchstart = clearCanvas;
     this.clearButton.onmouseup = clearCanvas;
 
-    // SOLVE FUNCTION
-    const solve = () => {
-      const endPoint = 'SOME-URL-TO-PYTHON-API';
 
-      /* fetch.then or async await, try catch stuff here */
+  
+    this.solveButton.onmouseup = () => this.solve(canvas, drawArea);
 
-      // get the drawing ctx of the canvas, pass that into the fetch request
-      const imageSnapshot = ctx.getImageData(0,0,canvas.width, canvas.height)
-      console.log(imageSnapshot)
-      canvas.toBlob(async (blob) => {
-        console.log(blob);
-        await fetch(endPoint, {
-          method: "POST",
-          headers: { 'Content-Type': 'image/png' },
-          body: blob,
-        })
 
-        const imgSrc = URL.createObjectURL(blob);
-        const tempImg = document.createElement('img')
-        tempImg.src = imgSrc;
-        drawArea.appendChild(tempImg)
-      })
-    }
-
-    this.solveButton.onmouseup = solve;
 
 
     // // Downscaling img on canvas attempt. still bad quality

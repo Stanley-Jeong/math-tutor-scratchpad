@@ -170,6 +170,7 @@ input[type="file"] {
   background-color: lightblue;
   background-color: #f6f6f6;
   position: relative;
+  /* width: 100%; */
 }
 
 .tab-content.active {
@@ -178,6 +179,11 @@ input[type="file"] {
 
 .tab-content p {
   font-weight: 400;
+}
+
+.infoText {
+  /* white-space: pre-wrap; */
+  white-space: pre-line;
 }
 
 .chatbox-offset-div {
@@ -218,6 +224,26 @@ input[type="file"] {
 .chat-input {
   width: 70%;
   padding: 6px;
+}
+
+.userChatMessage {
+  background-color: #2A7CC7;
+  color: white;
+  padding: 6px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  text-align: right;
+  width: max-content;
+  position: relative;
+  right: 0;
+}
+.responseChatMessage {
+  background-color: #E6E5EB;
+  padding: 6px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 

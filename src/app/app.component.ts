@@ -35,6 +35,12 @@ export class AppComponent {
           <body>
             <math-tutor-scratch-pad></math-tutor-scratch-pad>
 
+            <p>$$ 7 + 12 = 19 $$</p>
+            <p>Certainly! Let's solve the problem step by step:\n\nThe given problem is to add the numbers \\( 7 \\) and \\( 12 \\). Addition is one of the four basic arithmetic operations, and it involves finding the total or sum when combining two or more numbers.\n\nHere's how you solve this:\n\n1. **Identify the numbers to be added:** \n   - The numbers are \\( 7 \\) and \\( 12 \\).\n\n2. **Add the numbers:**\n   - We arrange the numbers vertically to make the addition easier (though this might seem trivial for two numbers):\n   \\[\n   \\begin{array}{c}\n     \\phantom{1}7 \\\\\n   +12 \\\\\n   \\hline\n   \\end{array}\n   \\]\n\n3. **Perform the addition:**\n\n   First, add the ones place:\n   - The ones place in \\( 7 \\) is \\( 7 \\).\n   - The ones place in \\( 12 \\) is \\( 2 \\).\n   - Adding \\( 7 + 2 = 9 \\).\n\n   Since there is nothing to carry over, we simply write \\( 9 \\) in the ones place of the result.\n\n4. **Write down the final result:**\n   - Now, write any numbers in the tens place as they are since there's nothing to carry and just a direct sum:\n   - The tens place in \\( 12 \\) is \\( 1 \\). Placing the \\( 9 \\) from the ones place next to \\( 1 \\), we get \\( 19 \\).\n\nThus, the sum of \\( 7 \\) and \\( 12 \\) is \\(\\boxed{19}\\).\n\nThis process illustrates simple addition, which is often straightforward but can be broken down into these steps for clarity and careful understanding.</p>
+
+           
+
+            <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
             <script src="./assets/math-tutor-htmlelement-stan/components/math-tutor-scratch-pad.js" type="module"></script>
           </body>
         </html>
@@ -45,6 +51,17 @@ export class AppComponent {
       script.src = './assets/math-tutor-htmlelement-stan/components/math-tutor-scratch-pad.js';
       // script.defer = true;
       newWindow.document.head.appendChild(script);
+
+      /* MATHJAX CDN SCRIPT */
+      const mathJaxScript = newWindow.document.createElement('script');
+      mathJaxScript.id = 'MathJax-script';
+      mathJaxScript.async = true;
+
+      const v2 = `https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML`
+
+      mathJaxScript.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      // mathJaxScript.defer = true;
+      newWindow.document.head.appendChild(mathJaxScript);
       
       const link = newWindow.document.createElement('link');
       link.rel = 'stylesheet'

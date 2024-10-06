@@ -1,9 +1,48 @@
 import { Button } from "./Button.js";
 
 export class InfoTabsContainer extends HTMLElement {
-  constructor() {
+  constructor(sendMessage) {
     super();
+    this.id = 'info-tabs-container'
+    this.sendMessage = sendMessage;
+
+    // this.placeholderText = `<p>$$ 7 + 12 = 19 $$</p>`;
+    // this.longerPlaceholderText = `<p>Certainly! Let's solve the problem step by step:\n\nThe given problem is to add the numbers \\( 7 \\) and \\( 12 \\). Addition is one of the four basic arithmetic operations, and it involves finding the total or sum when combining two or more numbers.\n\nHere's how you solve this:\n\n1. **Identify the numbers to be added:** \n   - The numbers are \\( 7 \\) and \\( 12 \\).\n\n2. **Add the numbers:**\n   - We arrange the numbers vertically to make the addition easier (though this might seem trivial for two numbers):\n   \\[\n   \\begin{array}{c}\n     \\phantom{1}7 \\\\\n   +12 \\\\\n   \\hline\n   \\end{array}\n   \\]\n\n3. **Perform the addition:**\n\n   First, add the ones place:\n   - The ones place in \\( 7 \\) is \\( 7 \\).\n   - The ones place in \\( 12 \\) is \\( 2 \\).\n   - Adding \\( 7 + 2 = 9 \\).\n\n   Since there is nothing to carry over, we simply write \\( 9 \\) in the ones place of the result.\n\n4. **Write down the final result:**\n   - Now, write any numbers in the tens place as they are since there's nothing to carry and just a direct sum:\n   - The tens place in \\( 12 \\) is \\( 1 \\). Placing the \\( 9 \\) from the ones place next to \\( 1 \\), we get \\( 19 \\).\n\nThus, the sum of \\( 7 \\) and \\( 12 \\) is \\(\\boxed{19}\\).\n\nThis process illustrates simple addition, which is often straightforward but can be broken down into these steps for clarity and careful understanding.</p>`;
+//     this.longerPlaceholderText = `<p>It looks like there's been a misunderstanding or typo in your expression: \( \frac{7x - 12}{y \quad x=2} \).
+
+// This expression seems to be missing some parts or contains an error. Let's try to interpret what you might mean. Here's a step-by-step process assuming you mean:
+
+// 1. Evaluate the expression \( \frac{7x - 12}{y} \) for \( x = 2 \).
+
+// If this is the intended expression, we first evaluate the expression's numerator by substituting \( x = 2 \).
+
+// 1. **Substitute \( x = 2 \):** 
+//    Start with replacing \( x \) in the numerator:
+
+//    \[
+//    7x - 12 = 7(2) - 12 = 14 - 12 = 2
+//    \]
+
+// 2. **Simplified Numerator:**
+//    Therefore, the numerator simplifies to 2.
+
+// 3. **Expression Given:**
+//    Now substitute the simplified result into the original expression:
+
+//    \[
+//    \frac{2}{y}
+//    \]
+
+// Without a specific value or expression for \( y \), we cannot simplify further. The result will depend on the value of \( y \). 
+
+// If the expression or values were supposed to be different, please provide more context or correct the expression, and I can help further!</p>`;
     
+    this.longerPlaceholderText = `
+      <p>This is an inline equation: \\( a^2 + b^2 = c^2 \\).</p>
+      <p>This is a display equation: $$ E = mc^2 $$</p>
+    `
+    
+
     // Right Container
     const rightContainer = document.createElement('div');
     rightContainer.classList.add('right-container');
@@ -45,6 +84,63 @@ export class InfoTabsContainer extends HTMLElement {
     rightContainer.appendChild(this.chatWindow);
   }
 
+  updateSolveResults(solutionText) {
+    console.log("updateSolveResults: ", window.MathJax)
+    this.querySelector('.Solution > .infoText').innerHTML = `<p>${solutionText}</p>`;
+
+    const mathElements = this.querySelector('.Solution > .infoText').querySelectorAll('p, div')
+
+    if (window.MathJax) {
+      mathElements.forEach((element) => {
+        window.MathJax.typesetPromise([element])
+          .then(() => {
+            console.log('MathJax rendering completed');
+          })
+          .catch((err) => console.error('MathJax rendering error:', err));
+      });
+    }
+  }
+
+  updateAnalysisResults(analysisText) {
+    // console.log("updateAnalysisResults: ", analysisText)
+    this.querySelector('.Analysis > .infoText').innerHTML = `<p>${analysisText}</p>`;
+
+    const mathElements = this.querySelector('.Analysis > .infoText').querySelectorAll('p, div')
+
+    if (window.MathJax) {
+      mathElements.forEach((element) => {
+        window.MathJax.typesetPromise([element])
+          .then(() => {
+            console.log('MathJax rendering completed');
+          })
+          .catch((err) => console.error('MathJax rendering error:', err));
+      });
+    }
+  }
+
+  updateChatConversation(lastResponse) {
+    const responseMessageBubble = document.createElement('p');
+    responseMessageBubble.classList.add('responseChatMessage');
+    responseMessageBubble.innerHTML = lastResponse;
+
+    this.querySelector('.Chat > .infoText').appendChild(responseMessageBubble);
+
+    const mathElements = this.querySelector('.Chat > .infoText').querySelectorAll('p, div')
+
+    if (window.MathJax) {
+      mathElements.forEach((element) => {
+        window.MathJax.typesetPromise([element])
+          .then(() => {
+            console.log('MathJax rendering completed');
+          })
+          .catch((err) => console.error('MathJax rendering error:', err));
+      });
+    }
+    
+    console.log("updateChatConversation", lastResponse)
+  }
+
+
   createInfoArea(sectionName) {
     const infoArea = document.createElement('div');
     infoArea.setAttribute('class', 'tab-content');
@@ -59,7 +155,9 @@ export class InfoTabsContainer extends HTMLElement {
     infoArea.appendChild(horizontalLine);
 
     const infoText = document.createElement('p');
-    infoText.textContent = `${sectionName} Lorem ipsum odor amet, consectetuer adipiscing elit. Etiam auctor sodales sed, non taciti non. Sollicitudin nunc per malesuada efficitur, vel pellentesque. Ad viverra sed dolor augue suscipit class. Elit nascetur sagittis orci egestas ridiculus. Turpis dignissim magna per senectus eleifend pulvinar donec velit. Facilisi lobortis primis; turpis volutpat curae amet.
+    infoText.classList.add('infoText')
+
+    const exampleText = `${sectionName} Lorem ipsum odor amet, consectetuer adipiscing elit. Etiam auctor sodales sed, non taciti non. Sollicitudin nunc per malesuada efficitur, vel pellentesque. Ad viverra sed dolor augue suscipit class. Elit nascetur sagittis orci egestas ridiculus. Turpis dignissim magna per senectus eleifend pulvinar donec velit. Facilisi lobortis primis; turpis volutpat curae amet.
 
 Scelerisque lacinia turpis praeseent orci facilisis. Gravida ex litora dictum feugiat netus, sagittis aptent. Suscipit lorem malesuada pretium litora potenti ornare. Aliquam iaculis orci vivamus lacinia non tempus fermentum imperdiet. Nullam suspendisse eleifend augue donec molestie nascetur. Libero placerat per hendrerit potenti enim non ante. Mauris tempor dignissim sed vivamus; ut scelerisque.
 
@@ -88,6 +186,11 @@ Convallis semper vestibulum mattis porta mollis tortor efficitur. Proin natoque 
 Ac urna inceptos massa potenti neque. Curae efficitur felis congue magnis duis euismod sodales dolor magna. Accumsan inceptos nam sollicitudin dui faucibus. Elementum arcu proin tempus pulvinar sapien viverra. Aliquam tincidunt malesuada montes fames cubilia efficitur faucibus. Mi habitant blandit fames mauris etiam litora. Viverra taciti praesent accumsan lacinia viverra praesent tortor ipsum. Dignissim eros condimentum cras tincidunt luctus potenti. Aliquam imperdiet magnis commodo phasellus suscipit viverra.
 
 Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur primis metus primis; nascetur penatibus enim lobortis. Nam rhoncus nec quis mattis malesuada. Sociosqu lacus interdum quam dapibus pretium mauris. Himenaeos hendrerit etiam metus commodo luctus? Faucibus metus eros libero sociosqu aliquet at est nostra.`;
+
+    // infoText.innerHTML = this.placeholderText;
+    infoText.innerHTML = this.longerPlaceholderText;
+
+
     infoArea.appendChild(infoText);
 
     // Chat Window differentiators
@@ -107,26 +210,17 @@ Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur
       infoArea.appendChild(chatboxOffsetDiv);
   
 
-      const sendMessage = () => {
-        chatInput.value = '';
-
-        // CHAT FUNCTIONALITY HERE
-        
-      }
-
       // Clicking on the Send Button
       const sendButton = new Button('Send');
-      sendButton.onmouseup = sendMessage;
+      sendButton.onmouseup = () => this.sendMessage(this, chatInput);
       
       // on Enter key, clear input and run function
       chatInput.addEventListener('keyup', (evt) => {
         if (evt.key === 'Enter') {
           evt.preventDefault();
-          sendMessage();
+          this.sendMessage(this, chatInput);
         }
       })
-
-
 
       chatInputFlexbox.append(chatInput, sendButton);
       // infoArea.appendChild(this.chatInputContainer)
