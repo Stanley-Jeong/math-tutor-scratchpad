@@ -37,7 +37,7 @@ class MathTutorScratchPad extends HTMLElement {
     const mainContainer = document.createElement('div');
     mainContainer.setAttribute('class', 'math-main-container');
 
-    const leftContainer = new DrawingPadContainer(this.solve);
+    const leftContainer = new DrawingPadContainer(this.solve, this.solveUploadedImage);
     const rightContainer = new InfoTabsContainer(this.sendMessage);
 
     // APPEND ELEMENTS TO MAIN CONTAINER
@@ -45,8 +45,6 @@ class MathTutorScratchPad extends HTMLElement {
     mainContainer.appendChild(rightContainer);
     shadow.appendChild(mainContainer);
 
-
-    
   }
 
   connectedCallback() {
@@ -91,6 +89,23 @@ class MathTutorScratchPad extends HTMLElement {
       console.log('already mathjax?');
       this.renderMathJax();
     }
+
+
+
+    /* MARKDOWN CDN SCRIPT */
+    const mdScript = document.createElement('script');
+    mdScript.id = 'mdScript-script';
+    mdScript.type = "text/javascript";
+    mdScript.async = true;
+    mdScript.src = "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
+    mdScript.defer = true;
+    
+    mdScript.onload = () => {
+      console.log(`mdScript loaded!`, window.marked);
+      // this.renderMathJax();
+    }
+
+    document.head.appendChild(mdScript);
   }
 
   renderMathJax() {
@@ -120,69 +135,138 @@ class MathTutorScratchPad extends HTMLElement {
     POST /solve_problem
     */
 
-    /* fetch.then or async await, try catch stuff here */
+    const parentElementInfoTabs = this.parentElement.querySelector('#info-tabs-container');
+    const parentElementDrawingPadContainer = this.parentElement.querySelector('#drawing-pad-container');
+    const topButtonsRow = parentElementDrawingPadContainer.querySelector('.top-buttons-row');
+    const infoTextWindow = parentElementInfoTabs.querySelector('.infoText');
 
-    // get the drawing ctx of the canvas, pass that into the fetch request
-    // const imageSnapshot = ctx.getImageData(0,0,canvas.width, canvas.height)
-    // console.log(imageSnapshot)
+    // CLEAR PREVIOUS RESULTS
+    infoTextWindow.innerHTML = '';
+
+    // LOADING GIF
+    const loadingGif = document.createElement('img');
+    loadingGif.classList.add('loading-element');
+    loadingGif.src = 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif';
+    // loadingGif.src = 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/f1055231234507.564a1d234bfb6.gif';
+    // loadingGif.src = 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/c3c4d331234507.564a1d23db8f9.gif';
+    topButtonsRow.appendChild(loadingGif);
 
     canvas.toBlob(async (blob) => {
       const formData = new FormData();
       formData.append('file', blob, 'canvasDrawing.png');
 
+      try {
+        loadingGif.style.display = 'block';
+        const response = await fetch(endPoint, {
+          method: 'POST',
+          // headers: { 
+            // 'Content-Type': 'image/png', 
+            // 'Content-Type': 'application/json',
+            // 'Content-Type': `multipart/form-data`,
+            // 'Content-Transfer-Encoding': 'base64' 
+          // },
+          body: formData,
+        })
+        
+        const data = await response.json();
+        console.log('data from fetch: ', data);
+        
+        // Run the UpdateSolveWindow here
+        await parentElementInfoTabs.updateSolveResults(data?.solution);
+  
+        // Run the UpdateAnalysisWindow here
+        await parentElementInfoTabs.updateAnalysisResults(data?.analysis);
+      } catch (error) {
+        console.error('Error during solve fetch request:', error);
+      } finally {
+        loadingGif.style.display = 'none';
+      }
+
+    })
+  }
+
+
+  async solveUploadedImage(uploadedImageFile) {
+    const endPoint = 'https://scratchpad-api.onrender.com/solve_problem';
+
+    const formData = new FormData();
+    formData.append('file', uploadedImageFile);
+
+    console.log("file: ", uploadedImageFile);
+
+    const parentElementInfoTabs = this.parentElement.querySelector('#info-tabs-container');
+    const parentElementDrawingPadContainer = this.parentElement.querySelector('#drawing-pad-container');
+    const topButtonsRow = parentElementDrawingPadContainer.querySelector('.top-buttons-row');
+    const infoTextWindow = parentElementInfoTabs.querySelector('.infoText');
+
+    // CLEAR PREVIOUS RESULTS
+    infoTextWindow.innerHTML = '';
+
+    const imgElement = document.createElement('img');
+    imgElement.width = infoTextWindow.clientWidth;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      imgElement.src = evt.target.result;
+    }
+    reader.readAsDataURL(uploadedImageFile);
+
+    infoTextWindow.appendChild(imgElement);
+
+    // LOADING GIF
+    const loadingGif = document.createElement('img');
+    loadingGif.classList.add('loading-element');
+    loadingGif.src = 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif';
+    // loadingGif.src = 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/f1055231234507.564a1d234bfb6.gif';
+    // loadingGif.src = 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/c3c4d331234507.564a1d23db8f9.gif';
+    topButtonsRow.appendChild(loadingGif);
+
+    try {
+      loadingGif.style.display = 'block';
       const response = await fetch(endPoint, {
         method: 'POST',
-        // headers: { 
-          // 'Content-Type': 'image/png', 
-          // 'Content-Type': 'application/json',
-          // 'Content-Type': `multipart/form-data`,
-          // 'Content-Transfer-Encoding': 'base64' 
-        // },
         body: formData,
       })
-      
-/* 
-
-SAMPLE RESPONSE:
-
-{problem: '\\( 7+12 \\)', solution: "Certainly! Let's solve the problem step by step:\n\n…hese steps for clarity and careful understanding.", analysis: "Certainly! Let's analyze the problem \\(7 + 12\\):\n\n…h to solving an addition problem like \\(7 + 12\\)."}
-
-analysis: "Certainly! Let's analyze the problem \\(7 + 12\\):\n\n1. **Type of Problem:**\n   - This is a basic arithmetic problem involving the addition of two integers.\n\n2. **Key Formulas or Theorems Needed:**\n   - For the problem of basic addition, the only requirement is understanding the concept of addition in arithmetic:\n     - Addition is the process of bringing two or more numbers (or things) together to make a new total.\n\n3. **Brief Outline of the Solution Approach:**\n   - Identify the numbers to be added: In this case, the numbers are \\(7\\) and \\(12\\).\n   - Use the addition operation to sum these two numbers.\n   - Compute \\(7 + 12\\).\n   - When you add these numbers together, you get the result:\n     $$ 7 + 12 = 19 $$\n   - Therefore, the solution to the problem is \\(19\\). \n\nThis outline provides a straightforward approach to solving an addition problem like \\(7 + 12\\)."
-problem: "\\( 7+12 \\)"
-solution: "Certainly! Let's solve the problem step by step:\n\nThe given problem is to add the numbers \\( 7 \\) and \\( 12 \\). Addition is one of the four basic arithmetic operations, and it involves finding the total or sum when combining two or more numbers.\n\nHere's how you solve this:\n\n1. **Identify the numbers to be added:** \n   - The numbers are \\( 7 \\) and \\( 12 \\).\n\n2. **Add the numbers:**\n   - We arrange the numbers vertically to make the addition easier (though this might seem trivial for two numbers):\n   \\[\n   \\begin{array}{c}\n     \\phantom{1}7 \\\\\n   +12 \\\\\n   \\hline\n   \\end{array}\n   \\]\n\n3. **Perform the addition:**\n\n   First, add the ones place:\n   - The ones place in \\( 7 \\) is \\( 7 \\).\n   - The ones place in \\( 12 \\) is \\( 2 \\).\n   - Adding \\( 7 + 2 = 9 \\).\n\n   Since there is nothing to carry over, we simply write \\( 9 \\) in the ones place of the result.\n\n4. **Write down the final result:**\n   - Now, write any numbers in the tens place as they are since there's nothing to carry and just a direct sum:\n   - The tens place in \\( 12 \\) is \\( 1 \\). Placing the \\( 9 \\) from the ones place next to \\( 1 \\), we get \\( 19 \\).\n\nThus, the sum of \\( 7 \\) and \\( 12 \\) is \\(\\boxed{19}\\).\n\nThis process illustrates simple addition, which is often straightforward but can be broken down into these steps for clarity and careful understanding."
-
-*/
-
+  
       const data = await response.json();
-      console.log('data from fetch: ', data);
-
-      // Set the data as something to be passed into the InfoTabsContainer
-      const parentElementInfoTabs = this.parentElement.querySelector('#info-tabs-container');
-      
+      console.log('data from uploaded image fetch: ', data);
+  
       // Run the UpdateSolveWindow here
       await parentElementInfoTabs.updateSolveResults(data?.solution);
-
+  
       // Run the UpdateAnalysisWindow here
       await parentElementInfoTabs.updateAnalysisResults(data?.analysis);
+    } catch (error) {
+      console.error('Error during solveUploadedImage fetch request:', error);
+    } finally {
+      // Hide the loading element when the request is done (either success or failure)
+      loadingGif.style.display = 'none';
+    }
 
-      // temp display image in DOM
-      const imgSrc = URL.createObjectURL(blob);
-      // console.log(imgSrc);
-      const tempImg = document.createElement('img')
-      tempImg.src = imgSrc;
-      drawArea.appendChild(tempImg)
-    })
+
+    
+    // // temp display image in DOM - REMOVE
+    // const imgSrc = URL.createObjectURL(blob);
+    // // console.log(imgSrc);
+    // const tempImg = document.createElement('img')
+    // tempImg.src = imgSrc;
+    // drawArea.appendChild(tempImg)
+
   }
 
   // CHAT FUNCTIONALITY HERE
   sendMessage = async (infoTabsContainer, chatInput) => {
     if (!chatInput.value) return;
 
+    const userMessageContainerDiv = document.createElement('div');
     const userMessageBubble = document.createElement('p');
     userMessageBubble.classList.add('userChatMessage');
     userMessageBubble.innerHTML = chatInput.value;
 
-    infoTabsContainer.querySelector('.Chat > .infoText').appendChild(userMessageBubble);
+    userMessageContainerDiv.appendChild(userMessageBubble);
+    userMessageContainerDiv.classList.add('userMessageContainerDiv');
+
+    infoTabsContainer.querySelector('.Chat > .infoText').appendChild(userMessageContainerDiv);
     console.log(infoTabsContainer)
 
     const endPoint = 'https://scratchpad-api.onrender.com/chat';
@@ -199,10 +283,8 @@ solution: "Certainly! Let's solve the problem step by step:\n\nThe given problem
     Chat endpoint:
     POST /chat
 
-
     message goes, then:
     {response: 'Hello! How can I assist you with your math questions today?'}
-
 
     {response: "Mathematics as a field wasn't invented by a single…uilding upon one another’s ideas and discoveries."}
 

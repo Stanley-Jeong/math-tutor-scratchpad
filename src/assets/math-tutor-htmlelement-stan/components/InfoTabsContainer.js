@@ -3,7 +3,7 @@ import { Button } from "./Button.js";
 export class InfoTabsContainer extends HTMLElement {
   constructor(sendMessage) {
     super();
-    this.id = 'info-tabs-container'
+    this.id = 'info-tabs-container';
     this.sendMessage = sendMessage;
 
     // this.placeholderText = `<p>$$ 7 + 12 = 19 $$</p>`;
@@ -85,33 +85,64 @@ export class InfoTabsContainer extends HTMLElement {
   }
 
   updateSolveResults(solutionText) {
-    console.log("updateSolveResults: ", window.MathJax)
-    this.querySelector('.Solution > .infoText').innerHTML = `<p>${solutionText}</p>`;
+    // console.log("updateSolveResults math jax status: ", window.MathJax)
+    // this.querySelector('.Solution > .infoText').innerHTML = `<p>${solutionText}</p>`;
 
-    const mathElements = this.querySelector('.Solution > .infoText').querySelectorAll('p, div')
+    const infoTextWindow = this.querySelector('.Solution > .infoText');
+
+    const solutionP = document.createElement('p');
+    solutionP.innerHTML = !solutionText ? "Sorry, I cannot read the image or drawing. Please try again." : solutionText;
+    infoTextWindow.appendChild(solutionP);
+
+    const mathElements = infoTextWindow.querySelectorAll('p, div');
+
+
+    mathElements.forEach((element) => {
+      element.innerHTML = element.innerHTML.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      element.innerHTML = element.innerHTML.replace(/^###\s*(.*$)/gim, '<h3>$1</h3>');
+      element.innerHTML = element.innerHTML.replace(/^##\s*(.*$)/gim, '<h2>$1</h2>');
+      element.innerHTML = element.innerHTML.replace(/^#\s*(.*$)/gim, '<h1>$1</h1>');
+    })
+
+    // if (window.marked) {
+    //   mathElements.forEach((element) => {
+    //     const markdownText = element.textContent;
+
+    //     // const renderedHTML = window.marked.parse(markdownText);
+    //     // element.innerHTML = renderedHTML;
+
+    //     Promise.resolve(window.marked.parse(markdownText))
+    //       .then((renderedHTML) => {
+    //         element.innerHTML = renderedHTML;
+    //         console.log('mdScript rendering for updateSolveResults completed');
+    //       })
+    //       .catch((err) => console.error('mdScript rendering error:', err));
+    //   });
+    // }
 
     if (window.MathJax) {
       mathElements.forEach((element) => {
         window.MathJax.typesetPromise([element])
           .then(() => {
-            console.log('MathJax rendering completed');
+            console.log('MathJax rendering for updateSolveResults completed');
           })
           .catch((err) => console.error('MathJax rendering error:', err));
       });
     }
+
   }
 
   updateAnalysisResults(analysisText) {
     // console.log("updateAnalysisResults: ", analysisText)
     this.querySelector('.Analysis > .infoText').innerHTML = `<p>${analysisText}</p>`;
 
-    const mathElements = this.querySelector('.Analysis > .infoText').querySelectorAll('p, div')
+    const mathElements = this.querySelector('.Analysis > .infoText').querySelectorAll('p, div');
 
     if (window.MathJax) {
       mathElements.forEach((element) => {
         window.MathJax.typesetPromise([element])
           .then(() => {
-            console.log('MathJax rendering completed');
+            console.log('MathJax rendering for updateAnalysisResults completed');
           })
           .catch((err) => console.error('MathJax rendering error:', err));
       });
@@ -125,7 +156,7 @@ export class InfoTabsContainer extends HTMLElement {
 
     this.querySelector('.Chat > .infoText').appendChild(responseMessageBubble);
 
-    const mathElements = this.querySelector('.Chat > .infoText').querySelectorAll('p, div')
+    const mathElements = this.querySelector('.Chat > .infoText').querySelectorAll('p, div');
 
     if (window.MathJax) {
       mathElements.forEach((element) => {
@@ -155,7 +186,7 @@ export class InfoTabsContainer extends HTMLElement {
     infoArea.appendChild(horizontalLine);
 
     const infoText = document.createElement('p');
-    infoText.classList.add('infoText')
+    infoText.classList.add('infoText');
 
     const exampleText = `${sectionName} Lorem ipsum odor amet, consectetuer adipiscing elit. Etiam auctor sodales sed, non taciti non. Sollicitudin nunc per malesuada efficitur, vel pellentesque. Ad viverra sed dolor augue suscipit class. Elit nascetur sagittis orci egestas ridiculus. Turpis dignissim magna per senectus eleifend pulvinar donec velit. Facilisi lobortis primis; turpis volutpat curae amet.
 
@@ -187,8 +218,9 @@ Ac urna inceptos massa potenti neque. Curae efficitur felis congue magnis duis e
 
 Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur primis metus primis; nascetur penatibus enim lobortis. Nam rhoncus nec quis mattis malesuada. Sociosqu lacus interdum quam dapibus pretium mauris. Himenaeos hendrerit etiam metus commodo luctus? Faucibus metus eros libero sociosqu aliquet at est nostra.`;
 
+
     // infoText.innerHTML = this.placeholderText;
-    infoText.innerHTML = this.longerPlaceholderText;
+    // infoText.innerHTML = this.longerPlaceholderText;
 
 
     infoArea.appendChild(infoText);

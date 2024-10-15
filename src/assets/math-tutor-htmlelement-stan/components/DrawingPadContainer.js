@@ -1,10 +1,11 @@
 import { Button } from './Button.js'
 
 export class DrawingPadContainer extends HTMLElement {
-  constructor(solve) {
+  constructor(solve, solveUploadedImage) {
     super();
-
+    this.id = 'drawing-pad-container';
     this.solve = solve;
+    this.solveUploadedImage = solveUploadedImage;
     
     // Left-side Drawing Window
     const leftContainer = document.createElement('div');
@@ -17,7 +18,7 @@ export class DrawingPadContainer extends HTMLElement {
 
     /* TOP BUTTONS */
     const topButtonsRow = document.createElement('div');
-    topButtonsRow.classList.add('space-between', 'buttons-row');
+    topButtonsRow.classList.add('space-between', 'buttons-row', 'top-buttons-row');
 
     const topLeftButtonsContainer = document.createElement('div');
     topLeftButtonsContainer.classList.add('d-flex-gap');
@@ -81,9 +82,7 @@ export class DrawingPadContainer extends HTMLElement {
 
 
   /* ==================================================================================== */
-  /* ==================================================================================== */
   /* ================================= DRAWING CANVAS =================================== */
-  /* ==================================================================================== */
   /* ==================================================================================== */
 
   createDrawArea() {
@@ -348,37 +347,43 @@ export class DrawingPadContainer extends HTMLElement {
     this.uploadInput.onchange = (e) => {
       const file = e.target.files[0];
       if (!file) return;
-      const reader = new FileReader()
-      reader.onload = (evt) => {
-        const img = new Image();
-        img.onload = () => {
 
-          // const scaleFactor = 0.5;
-          // downscaleImage(img, scaleFactor);
+      this.solveUploadedImage(file);
 
-          // const ratioX = canvas.width / img.naturalWidth;
-          // const ratioY = canvas.height / img.naturalHeight;
-          // const ratio = Math.min(ratioX / ratioY) * 0.4;
-          // const scaledWidth = img.naturalWidth * ratio;
-          // const scaledHeight = img.naturalHeight * ratio;
-          // const offsetX = (canvas.width - scaledWidth) / 2;
-          // const offsetY = (canvas.height - scaledHeight) / 2;
+      // const reader = new FileReader()
+      // reader.onload = (evt) => {
+      //   const img = new Image();
+      //   // img.classList.add('uploaded-image');
+      //   img.onload = () => {
 
-          // ctx.imageSmoothingEnabled = true;
-          // ctx.imageSmoothingQuality = 'high';
+      //     // const scaleFactor = 0.5;
+      //     // downscaleImage(img, scaleFactor);
 
-          // ctx.drawImage(img, offsetX, offsetY, scaledWidth, scaledHeight);
+      //     // const ratioX = canvas.width / img.naturalWidth;
+      //     // const ratioY = canvas.height / img.naturalHeight;
+      //     // const ratio = Math.min(ratioX / ratioY) * 0.4;
+      //     // const scaledWidth = img.naturalWidth * ratio;
+      //     // const scaledHeight = img.naturalHeight * ratio;
+      //     // const offsetX = (canvas.width - scaledWidth) / 2;
+      //     // const offsetY = (canvas.height - scaledHeight) / 2;
+
+      //     // ctx.imageSmoothingEnabled = true;
+      //     // ctx.imageSmoothingQuality = 'high';
+
+      //     // ctx.drawImage(img, offsetX, offsetY, scaledWidth, scaledHeight);
 
           
 
-          // img.style.width = '100%'
-          img.style.width = '49vw'
-          drawArea.appendChild(img);
+      //     // img.style.width = '100%'
+      //     // img.style.width = '49vw'
+      //     // drawArea.appendChild(img);
 
-        }
-        img.src = evt.target.result;
-      }
-      reader.readAsDataURL(file)
+      //     // CALL solveUploadedImage here
+      //     // this.solveUploadedImage(img);
+      //   }
+      //   img.src = evt.target.result;
+      // }
+      // reader.readAsDataURL(file)
     }
 
     drawArea.appendChild(canvas);

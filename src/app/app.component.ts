@@ -57,11 +57,16 @@ export class AppComponent {
       mathJaxScript.id = 'MathJax-script';
       mathJaxScript.async = true;
 
-      const v2 = `https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML`
+      const v2 = `https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS_CHTML`;
 
       mathJaxScript.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
       // mathJaxScript.defer = true;
       newWindow.document.head.appendChild(mathJaxScript);
+
+      /* MARKDOWN CDN SCRIPT */
+      const mdScript = newWindow.document.createElement('script');
+      mdScript.src = "https://cdn.jsdelivr.net/npm/marked/marked.min.js";
+      newWindow.document.head.appendChild(mdScript);
       
       const link = newWindow.document.createElement('link');
       link.rel = 'stylesheet'
