@@ -1,11 +1,12 @@
 import { Button } from './Button.js'
 
 export class DrawingPadContainer extends HTMLElement {
-  constructor(solve, solveUploadedImage) {
+  constructor(solveDrawing, solveUploadedImage, solveLogic) {
     super();
     this.id = 'drawing-pad-container';
-    this.solve = solve;
+    this.solveDrawing = solveDrawing;
     this.solveUploadedImage = solveUploadedImage;
+    this.solveLogic = solveLogic;
     
     // Left-side Drawing Window
     const leftContainer = document.createElement('div');
@@ -277,12 +278,29 @@ export class DrawingPadContainer extends HTMLElement {
     this.redoButton.onmouseup = redo;
 
 
-    const clearCanvas = () => {
+    const clearCanvas = async () => {
       // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clearRect 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       this.strokes = [];
       this.redoStack = [];
+
+
+      const endPoint = 'https://scratchpad-api.onrender.com/reset_chat';
+    
+      const response = await fetch(endPoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      const data = await response.json();
+
+      console.log("reset_chat data response: ", data);
+      alert(data?.message);
+      // await infoTabsContainer.updateChatConversation(data?.message);
     }
+
     // clear canvas button function
     // this.clearButton.onclick = clearCanvas;
     // this.clearButton.ontouchstart = clearCanvas;
@@ -290,7 +308,7 @@ export class DrawingPadContainer extends HTMLElement {
 
 
   
-    this.solveButton.onmouseup = () => this.solve(canvas, drawArea);
+    this.solveButton.onmouseup = () => this.solveDrawing(canvas);
 
 
 

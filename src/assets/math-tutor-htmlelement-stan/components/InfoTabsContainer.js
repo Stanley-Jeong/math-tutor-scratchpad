@@ -133,10 +133,22 @@ export class InfoTabsContainer extends HTMLElement {
   }
 
   updateAnalysisResults(analysisText) {
-    // console.log("updateAnalysisResults: ", analysisText)
-    this.querySelector('.Analysis > .infoText').innerHTML = `<p>${analysisText}</p>`;
+    const infoTextWindow = this.querySelector('.Analysis > .infoText');
 
-    const mathElements = this.querySelector('.Analysis > .infoText').querySelectorAll('p, div');
+    infoTextWindow.innerHTML = '';
+
+    const analysisP = document.createElement('p');
+    analysisP.innerHTML = !analysisText ? "Sorry, I cannot read the image or drawing. Please try again." : analysisText;
+    infoTextWindow.appendChild(analysisP);
+
+    const mathElements = infoTextWindow.querySelectorAll('p, div');
+
+    mathElements.forEach((element) => {
+      element.innerHTML = element.innerHTML.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      element.innerHTML = element.innerHTML.replace(/^###\s*(.*$)/gim, '<h3>$1</h3>');
+      element.innerHTML = element.innerHTML.replace(/^##\s*(.*$)/gim, '<h2>$1</h2>');
+      element.innerHTML = element.innerHTML.replace(/^#\s*(.*$)/gim, '<h1>$1</h1>');
+    })
 
     if (window.MathJax) {
       mathElements.forEach((element) => {
@@ -168,7 +180,7 @@ export class InfoTabsContainer extends HTMLElement {
       });
     }
     
-    console.log("updateChatConversation", lastResponse)
+    // console.log("updateChatConversation", lastResponse);
   }
 
 
@@ -184,6 +196,9 @@ export class InfoTabsContainer extends HTMLElement {
 
     const horizontalLine = document.createElement('hr');
     infoArea.appendChild(horizontalLine);
+
+    const imageHolderDiv = document.createElement('div');
+    imageHolderDiv.classList.add('imageHolderDiv');
 
     const infoText = document.createElement('p');
     infoText.classList.add('infoText');
@@ -223,6 +238,7 @@ Euismod ligula vel habitasse nisl eu placerat porttitor libro praesent. Nascetur
     // infoText.innerHTML = this.longerPlaceholderText;
 
 
+    infoArea.appendChild(imageHolderDiv);
     infoArea.appendChild(infoText);
 
     // Chat Window differentiators
