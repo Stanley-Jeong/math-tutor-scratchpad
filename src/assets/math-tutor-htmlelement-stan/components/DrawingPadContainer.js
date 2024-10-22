@@ -268,7 +268,7 @@ export class DrawingPadContainer extends HTMLElement {
       if (this.redoStack.length) {
         const restoredStroke = this.redoStack.pop();
         this.strokes.push(restoredStroke);
-        console.log(this.strokes)
+        // console.log(this.strokes)
         redrawCanvas();
       }
     };
@@ -285,7 +285,8 @@ export class DrawingPadContainer extends HTMLElement {
       this.redoStack = [];
 
 
-      const endPoint = 'https://scratchpad-api.onrender.com/reset_chat';
+      // const endPoint = 'https://scratchpad-api.onrender.com/reset_chat';
+      const endPoint = 'https://scratch-pad-v2-0.onrender.com/reset_chat';
     
       const response = await fetch(endPoint, {
         method: 'POST',

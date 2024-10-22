@@ -153,7 +153,7 @@ class MathTutorScratchPad extends HTMLElement {
       });
 
       // const data1 = await response1.json();
-      console.log("result data is: ", response1);
+      // console.log("result data is: ", response1);
       // const problemText = data1?.problem;
       // infoTextWindow.innerText = problemText;
 
@@ -168,11 +168,11 @@ class MathTutorScratchPad extends HTMLElement {
       let content = "";
       while (true) {
         const { done, value } = await reader.read();
-        console.log("done: ", done);
-        console.log("value: ", value);
+        // console.log("done: ", done);
+        // console.log("value: ", value);
         if (done) break;
         let chunk = decoder.decode(value, { stream: true });
-        console.log("Received chunk:", chunk);
+        // console.log("Received chunk:", chunk);
 
         // if (chunk["detail"]) {
         //   content += chunk["detail"];
@@ -203,7 +203,7 @@ class MathTutorScratchPad extends HTMLElement {
       })
       
       const data = await responseAnalysis.json();
-      console.log('data from Analysis fetch: ', data);
+      // console.log('data from Analysis fetch: ', data);
       // Run the UpdateAnalysisWindow here
       await parentElementInfoTabs.updateAnalysisResults(data?.analysis);
 
@@ -281,7 +281,7 @@ class MathTutorScratchPad extends HTMLElement {
 
     const formData = new FormData();
     formData.append('file', uploadedImageFile);
-    console.log("file: ", uploadedImageFile);
+    // console.log("file: ", uploadedImageFile);
 
     const imgElement = document.createElement('img');
     imgElement.width = solutionInfoTextWindow.clientWidth;
@@ -321,7 +321,7 @@ class MathTutorScratchPad extends HTMLElement {
     const infoTextWindow = infoTabsContainer.querySelector('.Chat > .infoText');
 
     infoTextWindow.appendChild(userMessageContainerDiv);
-    console.log(infoTabsContainer)
+    // console.log(infoTabsContainer)
 
     // const chatEndPoint = 'https://scratchpad-api.onrender.com/chat';
     const chatEndPoint = 'https://scratch-pad-v2-0.onrender.com/chat';
