@@ -184,6 +184,9 @@ class MathTutorScratchPad extends HTMLElement {
         infoTextWindow.innerHTML = content;
 
         infoTextWindow.innerHTML = infoTextWindow.innerHTML.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        infoTextWindow.innerHTML = infoTextWindow.innerHTML.replace(/^######\s*(.*$)/gim, '<h6>$1</h6>');
+        infoTextWindow.innerHTML = infoTextWindow.innerHTML.replace(/^#####\s*(.*$)/gim, '<h5>$1</h5>');
+        infoTextWindow.innerHTML = infoTextWindow.innerHTML.replace(/^####\s*(.*$)/gim, '<h4>$1</h4>');
         infoTextWindow.innerHTML = infoTextWindow.innerHTML.replace(/^###\s*(.*$)/gim, '<h3>$1</h3>');
         infoTextWindow.innerHTML = infoTextWindow.innerHTML.replace(/^##\s*(.*$)/gim, '<h2>$1</h2>');
         infoTextWindow.innerHTML = infoTextWindow.innerHTML.replace(/^#\s*(.*$)/gim, '<h1>$1</h1>');
@@ -349,9 +352,13 @@ class MathTutorScratchPad extends HTMLElement {
       infoTextWindow.appendChild(responseMessageBubble);
 
       responseMessageBubble.innerHTML = responseMessageBubble.innerHTML.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      responseMessageBubble.innerHTML = responseMessageBubble.innerHTML.replace(/^######\s*(.*$)/gim, '<h6>$1</h6>');
+      responseMessageBubble.innerHTML = responseMessageBubble.innerHTML.replace(/^#####\s*(.*$)/gim, '<h5>$1</h5>');
+      responseMessageBubble.innerHTML = responseMessageBubble.innerHTML.replace(/^####\s*(.*$)/gim, '<h4>$1</h4>');
       responseMessageBubble.innerHTML = responseMessageBubble.innerHTML.replace(/^###\s*(.*$)/gim, '<h3>$1</h3>');
       responseMessageBubble.innerHTML = responseMessageBubble.innerHTML.replace(/^##\s*(.*$)/gim, '<h2>$1</h2>');
       responseMessageBubble.innerHTML = responseMessageBubble.innerHTML.replace(/^#\s*(.*$)/gim, '<h1>$1</h1>');
+
 
       if (window.MathJax) {
         await window.MathJax.typesetPromise([responseMessageBubble])

@@ -38,6 +38,9 @@
   font-size: normal;
 }
 
+.tabs-container > .tab, .tab-content > .infoText, .tab-content > h3 {
+  color: black;
+}
 
 .math-main-container {
   display: flex;
